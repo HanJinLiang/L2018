@@ -4,6 +4,12 @@ import android.support.annotation.NonNull;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -17,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitFactory {
 
-    public final static String BASEAPI="https://www.fddlpz.com/";
+    public final static String BASEAPI="https://www.fddlpz.com/note/";
 
     private volatile static Retrofit retrofit;
 
@@ -32,8 +38,8 @@ public class RetrofitFactory {
                             .connectTimeout(10, TimeUnit.SECONDS)
                             .readTimeout(15, TimeUnit.SECONDS)
                             .writeTimeout(15, TimeUnit.SECONDS)
-                            .retryOnConnectionFailure(true)
-                            ;
+                            .retryOnConnectionFailure(true);
+                    setHttps(builder);
 
                     //使用自定义的Log拦截器
                     builder.addInterceptor(new LoggingInterceptor());
@@ -48,5 +54,46 @@ public class RetrofitFactory {
             }
         }
         return retrofit;
+    }
+
+    private static void setHttps(OkHttpClient.Builder builder) {
+        //信任所有服务器地址
+        builder.hostnameVerifier(new HostnameVerifier() {
+            @Override
+            public boolean verify(String s, SSLSession sslSession) {
+                //设置为true
+                return true;
+            }
+        });
+        //创建管理器
+        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+            @Override
+            public void checkClientTrusted(
+                    java.security.cert.X509Certificate[] x509Certificates,
+                    String s) throws java.security.cert.CertificateException {
+            }
+
+            @Override
+            public void checkServerTrusted(
+                    java.security.cert.X509Certificate[] x509Certificates,
+                    String s) throws java.security.cert.CertificateException {
+            }
+
+            @Override
+            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                return new java.security.cert.X509Certificate[] {};
+            }
+        } };
+        try {
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+
+            //为OkHttpClient设置sslSocketFactory
+            builder.sslSocketFactory(sslContext.getSocketFactory());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

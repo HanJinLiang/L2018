@@ -10,10 +10,14 @@ public class TestActivity extends BaseActivity<DemoPresenter> implements DemoCon
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
         findViewById(R.id.tv_test).setOnClickListener(v -> {
             mPresenter.getTest();
         });
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_test;
     }
 
     @Override
@@ -25,5 +29,10 @@ public class TestActivity extends BaseActivity<DemoPresenter> implements DemoCon
     @Override
     public void test(String s) {
         Toast.makeText(this,s,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void initView() {
+
     }
 }

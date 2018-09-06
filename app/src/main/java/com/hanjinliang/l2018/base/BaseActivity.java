@@ -1,15 +1,21 @@
 package com.hanjinliang.l2018.base;
 
 import android.app.Dialog;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.BarUtils;
 import com.hanjinliang.l2018.R;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
+import butterknife.ButterKnife;
 import io.reactivex.annotations.Nullable;
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -18,8 +24,7 @@ import io.reactivex.disposables.CompositeDisposable;
  * 功能介绍：
  */
 
-public abstract class BaseActivity<T1 extends BaseContract.IBasePresenter> extends RxAppCompatActivity implements IBase,BaseContract.IBaseView{
-
+public abstract class BaseActivity<T extends BaseContract.IBasePresenter> extends RxAppCompatActivity implements IBase,BaseContract.IBaseView{
 
     /**
      * RxBus代替EventBus 将监听在结束是关闭
@@ -36,15 +41,34 @@ public abstract class BaseActivity<T1 extends BaseContract.IBasePresenter> exten
      * 在子类中实现init方法
      */
     @Nullable
-    protected T1 mPresenter;
+    protected T mPresenter;
 
     @Override
     protected void onCreate(@android.support.annotation.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(getContentViewId());
+        //隐藏标题栏
+        if(getSupportActionBar()!=null) {
+            getSupportActionBar().hide();
+        }
+        ButterKnife.bind(this);
+        // 禁止横屏
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        BarUtils.setStatusBarColor(this, ContextCompat.getColor(this, getStatusBarColor()));
         mLoadingDialog = DialogHelper.getLoadingDialog(this);
         initPresenter();
         attachView();
         //todo
+    }
+
+    public abstract int getContentViewId();
+
+    /**
+     * 返回头部颜色
+     * @return
+     */
+    public    @ColorRes int getStatusBarColor(){
+        return R.color.top_color;
     }
 
     @Override
@@ -96,6 +120,7 @@ public abstract class BaseActivity<T1 extends BaseContract.IBasePresenter> exten
     private void attachView() {
         if (mPresenter != null) {
             mPresenter.attachView(this);
+            initView();
         }
     }
 
