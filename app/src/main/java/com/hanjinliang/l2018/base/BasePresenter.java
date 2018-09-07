@@ -31,13 +31,11 @@ public class BasePresenter <T extends BaseContract.IBaseView> implements BaseCon
      * @return
      */
     public <T> ObservableTransformer<ResultEntity<T>, T> handleResult() {
-        return upstream -> {
-            return upstream.flatMap(result -> {
+        return upstream ->  upstream.flatMap(result -> {
                         //此处可以做部分异常处理
                         return createData(result.getData());
                     }
             );
-        };
     }
 
     /**

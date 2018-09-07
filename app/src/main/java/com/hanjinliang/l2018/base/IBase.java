@@ -7,6 +7,6 @@ package com.hanjinliang.l2018.base;
 
 public interface IBase {
     void  initPresenter();
-//    void initView();
+     void initView();
 //    void initVData();
 }

@@ -120,8 +120,8 @@ public abstract class BaseActivity<T extends BaseContract.IBasePresenter> extend
     private void attachView() {
         if (mPresenter != null) {
             mPresenter.attachView(this);
-            initView();
         }
+        initView();
     }
 
     @Override

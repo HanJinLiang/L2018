@@ -6,10 +6,12 @@ import android.widget.EditText;
 
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ImageUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.RegexUtils;
-import com.hanjinliang.l2018.MainActivity;
+import com.hanjinliang.l2018.ui.main.MainActivity;
 import com.hanjinliang.l2018.R;
 import com.hanjinliang.l2018.base.BaseActivity;
+import com.hanjinliang.l2018.entity.UserEntity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -56,7 +58,8 @@ public class LoginActivity extends BaseActivity<LoginContract.ILoginPresenter> i
     }
 
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(UserEntity userEntity) {
+        LogUtils.e(userEntity.toString());
         startActivity(new Intent(this, MainActivity.class));
     }
 }

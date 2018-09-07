@@ -6,31 +6,50 @@ package com.hanjinliang.l2018.entity;
  */
 
 public class UserEntity {
-    private int id;
-    private String name;
-    private int age;
+    private int userId;
+    private String userName;
+    private String userDesc;
+    private String account;
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public int getAge() {
-        return age;
+    public String getUserDesc() {
+        return userDesc;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setUserDesc(String userDesc) {
+        this.userDesc = userDesc;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", userDesc='" + userDesc + '\'' +
+                ", account='" + account + '\'' +
+                '}';
     }
 }

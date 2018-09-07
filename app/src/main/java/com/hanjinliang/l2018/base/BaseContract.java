@@ -25,10 +25,6 @@ public class BaseContract {
 
     public interface IBaseView{
         /**
-         * 初始化View
-         */
-        void initView();
-        /**
          * 可以弹出加载框
          * @param loadStr 加载框提示语
          */

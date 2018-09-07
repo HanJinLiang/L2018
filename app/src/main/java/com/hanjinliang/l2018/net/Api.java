@@ -21,4 +21,8 @@ public interface Api {
     @FormUrlEncoded
     @POST("user/register")
     Observable<ResultEntity<String>> register(@Field("account") String account, @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST("user/loginByPassword")
+    Observable<ResultEntity<UserEntity>> loginByPassword(@Field("account") String account, @Field("password") String password);
 }
