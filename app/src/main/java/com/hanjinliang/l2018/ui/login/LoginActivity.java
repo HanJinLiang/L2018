@@ -38,12 +38,20 @@ public class LoginActivity extends BaseActivity<LoginContract.ILoginPresenter> i
     public int getContentViewId() {
         return R.layout.activity_login;
     }
-
+    @Override
+    public boolean isWithToolBar() {
+        return false;
+    }
     @Override
     public void initView() {
         //设置导航栏透明
         BarUtils.setStatusBarAlpha(this,0);
         mRootView.setBackgroundDrawable(ImageUtils.bitmap2Drawable(ImageUtils.fastBlur(ImageUtils.getBitmap(R.drawable.bg_2018),0.7f,5)));
+    }
+
+    @Override
+    public String setTitle() {
+        return null;
     }
 
     @OnClick({R.id.login})

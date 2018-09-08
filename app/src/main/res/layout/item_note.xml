@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/corner_gray_gray"
+    android:id="@+id/layout_root_login"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/l_10dp"
+    android:layout_marginTop="@dimen/l_5dp"
+    android:layout_marginBottom="@dimen/l_5dp"
+    android:layout_marginLeft="@dimen/l_10dp"
+    android:layout_marginRight="@dimen/l_10dp"
+    android:elevation="@dimen/elevation"
+
+    >
+
+    <ImageView
+        android:id="@+id/id_note_header"
+        android:layout_width="@dimen/l_50dp"
+        android:layout_height="@dimen/l_50dp"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/icon_nav_collect"/>
+
+        <TextView
+            android:id="@+id/id_note_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@+id/id_note_header"
+            app:layout_constraintTop_toTopOf="@+id/id_note_header"
+            app:layout_constraintBottom_toTopOf="@+id/id_note_time"
+            android:layout_marginLeft="@dimen/l_10dp"
+            tools:text="裁军"/>
+
+    <TextView
+        android:id="@+id/id_note_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/id_note_name"
+        app:layout_constraintTop_toBottomOf="@+id/id_note_name"
+        app:layout_constraintBottom_toBottomOf="@+id/id_note_header"
+        tools:text="2018-09-08 11:45"/>
+
+    <TextView
+        android:id="@+id/id_note_link"
+        android:textColor="@color/text_blue"
+        tools:text="www.baidu,conwww.baidu,conwww.baidu,conwww.baidu,con"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/id_note_header"
+        app:layout_constraintTop_toBottomOf="@id/id_note_header"/>
+    <TextView
+        android:id="@+id/id_note_content"
+        tools:text="这是我第一个笔记"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/id_note_header"
+        app:layout_constraintTop_toBottomOf="@id/id_note_link"/>
+</android.support.constraint.ConstraintLayout>

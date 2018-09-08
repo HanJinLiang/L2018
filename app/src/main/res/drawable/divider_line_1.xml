@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <!-- 实心填充 -->
+    <solid android:color="#afafaf" />
+    <size android:height="0.8dp" android:width="300dp"/>
+</shape>

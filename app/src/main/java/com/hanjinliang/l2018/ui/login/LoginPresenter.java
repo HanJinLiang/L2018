@@ -1,6 +1,10 @@
 package com.hanjinliang.l2018.ui.login;
 
+import com.blankj.utilcode.util.SPUtils;
+import com.google.gson.Gson;
+import com.hanjinliang.l2018.base.BaseObserver;
 import com.hanjinliang.l2018.base.BasePresenter;
+import com.hanjinliang.l2018.entity.UserEntity;
 import com.hanjinliang.l2018.net.Api;
 import com.hanjinliang.l2018.net.RetrofitFactory;
 
@@ -10,13 +14,11 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Created by HanJinLiang on 2018-09-06.
  */
-
 public class LoginPresenter extends BasePresenter<LoginContract.ILoginView> implements LoginContract.ILoginPresenter {
     @Override
     public void login(String tel, String pwd) {
-        mView.showLoading("登录中");
         RetrofitFactory.getRetrofit().create(Api.class)
-                 .register(tel,pwd)
+                .register(tel,pwd)
                 .flatMap(s-> RetrofitFactory.getRetrofit().create(Api.class).loginByPassword(tel,pwd))
                 //转换数据源
                 .compose(handleResult())
@@ -25,12 +27,12 @@ public class LoginPresenter extends BasePresenter<LoginContract.ILoginView> impl
                 //切换线程
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> {
-                    mView.hideLoading();
-                    mView.loginSuccess(s);
-                },throwable -> {
-                    mView.hideLoading();
-                    //必须实现不然异常时直接崩溃(可以看看有没有通用方法)
+                .subscribe(new BaseObserver<UserEntity>(mView,"登录中"){
+                    @Override
+                    public void onNext(UserEntity userEntity) {
+                        SPUtils.getInstance().put("userInfo",new Gson().toJson(userEntity));
+                        mView.loginSuccess(userEntity);
+                    }
                 });
     }
 

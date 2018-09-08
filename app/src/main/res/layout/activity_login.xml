@@ -47,7 +47,8 @@
                 android:inputType="phone"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textColor="@color/text_black"/>
+                android:textColor="@color/text_black"
+                android:maxLength="11"/>
 
         </android.support.design.widget.TextInputLayout>
 

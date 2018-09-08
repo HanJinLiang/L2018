@@ -16,10 +16,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.hanjinliang.l2018.R;
 import com.hanjinliang.l2018.base.BaseActivity;
+import com.hanjinliang.l2018.ui.baseinfo.BaseInfoActivity;
 import com.hanjinliang.l2018.ui.login.LoginActivity;
 import com.hanjinliang.l2018.ui.note.NoteFragment;
+import com.hanjinliang.l2018.ui.note.build.AddNoteActivity;
 
 import java.util.ArrayList;
 
@@ -45,6 +48,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public int getContentViewId() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    public boolean isWithToolBar() {
+        return false;
     }
 
     @Override
@@ -76,8 +84,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 return mFragmentArrayList.size();
             }
         });
-        BarUtils.setStatusBarColor4Drawer(this,drawer,fake_status_bar, ContextCompat.getColor(this,R.color.top_color),100,false);
-        BarUtils.addMarginTopEqualStatusBarHeight(toolbar);//
+        //BarUtils.setStatusBarColor4Drawer(this,drawer,fake_status_bar, ContextCompat.getColor(this,R.color.top_color),100,false);
+      //  BarUtils.addMarginTopEqualStatusBarHeight(toolbar);//
+    }
+
+    @Override
+    public String setTitle() {
+        return null;
     }
 
 
@@ -89,7 +102,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 navigationView.inflateHeaderView(R.layout.nav_header_main);
         TextView userName= headerLayout.findViewById(R.id.nav_userName);
         TextView userPhone=headerLayout.findViewById(R.id.nav_userPhone);
-
+        headerLayout.setOnClickListener(v->startActivity(new Intent(this, BaseInfoActivity.class)));
     }
 
 
@@ -99,6 +112,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.nav_collect://收藏
                 return true;
             case R.id.nav_loginOut://退出登录
+                SPUtils.getInstance().remove("userInfo");
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 return true;
@@ -109,7 +123,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @OnClick({R.id.fab})
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.fab://todo 新建笔记
+            case R.id.fab:// 新建笔记
+                startActivity(new Intent(this, AddNoteActivity.class));
                 break;
         }
     }
