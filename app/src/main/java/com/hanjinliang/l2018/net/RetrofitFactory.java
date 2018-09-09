@@ -2,6 +2,12 @@ package com.hanjinliang.l2018.net;
 
 import android.support.annotation.NonNull;
 
+import com.franmontiel.persistentcookiejar.ClearableCookieJar;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+import com.hanjinliang.l2018.ui.main.L2018Application;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
@@ -41,18 +47,20 @@ public class RetrofitFactory {
         if (retrofit == null) {
             synchronized (RetrofitFactory.class) {
                 if (retrofit == null) {
-
-                    //cookie持久化
-                    OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                        OkHttpClient.Builder builder = new OkHttpClient.Builder()
                             .connectTimeout(10, TimeUnit.SECONDS)
                             .readTimeout(15, TimeUnit.SECONDS)
                             .writeTimeout(15, TimeUnit.SECONDS)
                             .retryOnConnectionFailure(true);
+
                     //setHttps(builder);
                     // builder.sslSocketFactory(getSSLSocketFactory(new Buffer().writeUtf8(CER_L2018).inputStream()));
                     //使用自定义的Log拦截器
                     builder.addInterceptor(new LoggingInterceptor());
-
+                    //cookie持久化
+                    ClearableCookieJar cookieJar =
+                            new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(L2018Application.APP));
+                    builder.cookieJar(cookieJar);
                     retrofit = new Retrofit.Builder()
                             .baseUrl(BASEAPI)
                             .client(builder.build())
