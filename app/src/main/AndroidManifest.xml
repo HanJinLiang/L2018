@@ -28,7 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.login.LoginActivity"/>
+        <activity android:name=".ui.login.LoginActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
         <activity android:name=".ui.note.build.AddNoteActivity"/>
         <activity android:name=".ui.baseinfo.BaseInfoActivity"/>
         <activity android:name=".ui.baseinfo.update.UpdateBaseInfoActivity"/>

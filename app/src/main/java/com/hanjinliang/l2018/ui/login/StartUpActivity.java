@@ -3,11 +3,12 @@ package com.hanjinliang.l2018.ui.login;
 import android.content.Intent;
 import android.widget.ImageView;
 
+import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ImageUtils;
-import com.blankj.utilcode.util.SPUtils;
 import com.hanjinliang.l2018.R;
 import com.hanjinliang.l2018.base.BaseActivity;
 import com.hanjinliang.l2018.ui.main.MainActivity;
+import com.hanjinliang.l2018.ui.main.UserInfoHelper;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,11 +28,13 @@ public class StartUpActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        //设置导航栏透明
+        BarUtils.setStatusBarAlpha(this,0);
         startUpImage.setImageDrawable(ImageUtils.bitmap2Drawable(ImageUtils.fastBlur(ImageUtils.getBitmap(R.drawable.bg_2018),0.7f,5)));
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                if(SPUtils.getInstance().contains("userInfo")){
+                if(UserInfoHelper.getInstance().getUserInfo()!=null){
                     startActivity(new Intent(StartUpActivity.this, MainActivity.class));
                 }else{
                     startActivity(new Intent(StartUpActivity.this, LoginActivity.class));

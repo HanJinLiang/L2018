@@ -32,9 +32,9 @@ public class NoteAdapter extends BaseQuickAdapter<String,BaseViewHolder> impleme
         String link="https://blog.csdn.net/zhangjinhuang/article/details/52416608";
         String testLink1 ="<font color='#0e6c9c'>"+ "<a href="+link+">"+link+"</a>";
         helper.setText(R.id.id_note_link, Html.fromHtml(testLink1));
-        MyImageLoader.getInstance().showImage(mContext,
+        MyImageLoader.getInstance().load(
                 "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536425846760&di=f84d26fcfddb56b752548483437ea9fb&imgtype=0&src=http%3A%2F%2Fimage.uc.cn%2Fs%2Fwemedia%2Fs%2F2017%2F09aad549d74aa227606b51edaefa08f7x1280x852x87.jpeg"
-        ,helper.getView(R.id.id_note_header));
+        ).isCircle(true).into(helper.getView(R.id.id_note_header));
         helper.addOnClickListener(R.id.id_note_link);
         helper.addOnClickListener(R.id.id_note_header);
     }

@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -13,9 +12,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.hanjinliang.l2018.R;
 import com.hanjinliang.l2018.base.BaseActivity;
@@ -23,6 +22,7 @@ import com.hanjinliang.l2018.ui.baseinfo.BaseInfoActivity;
 import com.hanjinliang.l2018.ui.login.LoginActivity;
 import com.hanjinliang.l2018.ui.note.NoteFragment;
 import com.hanjinliang.l2018.ui.note.build.AddNoteActivity;
+import com.hanjinliang.l2018.utils.image.MyImageLoader;
 
 import java.util.ArrayList;
 
@@ -102,6 +102,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 navigationView.inflateHeaderView(R.layout.nav_header_main);
         TextView userName= headerLayout.findViewById(R.id.nav_userName);
         TextView userPhone=headerLayout.findViewById(R.id.nav_userPhone);
+        ImageView imageView=headerLayout.findViewById(R.id.imageView);
+
+        userName.setText(UserInfoHelper.getInstance().getUserInfo().getUserName());
+        userPhone.setText(UserInfoHelper.getInstance().getUserInfo().getAccount());
+        MyImageLoader.getInstance().load(UserInfoHelper.getInstance().getUserInfo().getHeader()).isCircle(true).into(imageView);
         headerLayout.setOnClickListener(v->startActivity(new Intent(this, BaseInfoActivity.class)));
     }
 

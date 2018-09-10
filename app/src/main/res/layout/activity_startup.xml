@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<ImageView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout_root_login"
+    android:id="@+id/startUpImage"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/startUpImage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</android.support.constraint.ConstraintLayout>
+    android:layout_height="match_parent"
+    android:scaleType="centerCrop"/>

@@ -59,7 +59,7 @@ public class RetrofitFactory {
                     builder.addInterceptor(new LoggingInterceptor());
                     //cookie持久化
                     ClearableCookieJar cookieJar =
-                            new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(L2018Application.APP));
+                            new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(L2018Application.getApp()));
                     builder.cookieJar(cookieJar);
                     retrofit = new Retrofit.Builder()
                             .baseUrl(BASEAPI)

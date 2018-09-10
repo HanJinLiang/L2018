@@ -1,12 +1,11 @@
 package com.hanjinliang.l2018.ui.login;
 
-import com.blankj.utilcode.util.SPUtils;
-import com.google.gson.Gson;
 import com.hanjinliang.l2018.base.BaseObserver;
 import com.hanjinliang.l2018.base.BasePresenter;
 import com.hanjinliang.l2018.entity.UserEntity;
 import com.hanjinliang.l2018.net.Api;
 import com.hanjinliang.l2018.net.RetrofitFactory;
+import com.hanjinliang.l2018.ui.main.UserInfoHelper;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -30,7 +29,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.ILoginView> impl
                 .subscribe(new BaseObserver<UserEntity>(mView,"登录中"){
                     @Override
                     public void onNext(UserEntity userEntity) {
-                        SPUtils.getInstance().put("userInfo",new Gson().toJson(userEntity));
+                        UserInfoHelper.getInstance().updateUserInfo(userEntity);
                         mView.loginSuccess(userEntity);
                     }
                 });

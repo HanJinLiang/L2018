@@ -10,6 +10,15 @@ public class UserEntity {
     private String userName;
     private String userDesc;
     private String account;
+    private String header;
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
+    }
 
     public int getUserId() {
         return userId;
