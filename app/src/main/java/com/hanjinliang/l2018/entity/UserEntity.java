@@ -6,7 +6,7 @@ package com.hanjinliang.l2018.entity;
  */
 
 public class UserEntity {
-    private int userId;
+    private String userId;
     private String userName;
     private String userDesc;
     private String account;
@@ -20,11 +20,11 @@ public class UserEntity {
         this.header = header;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

@@ -25,17 +25,29 @@ public class BasePresenter <T extends BaseContract.IBaseView> implements BaseCon
         }
     }
 
+    public T getView() {
+        return mView;
+    }
+
     /**
      * Rx优雅处理服务器返回
      * @param <T> ResultEntity<T> to T
      * @return
      */
     public <T> ObservableTransformer<ResultEntity<T>, T> handleResult() {
-        return upstream ->  upstream.flatMap(result -> {
-                        //此处可以做部分异常处理
-                        return createData(result.getData());
+        return upstream -> upstream.flatMap(result -> {
+                    //此处可以做部分异常处理
+                    if (result.getCode() == 200) {
+                        if(result.getData()==null){
+                            return createData((T)result.getMsg());
+                        }else{
+                            return createData(result.getData());
+                        }
+                    }else{
+                        return Observable.empty();
                     }
-            );
+                }
+        );
     }
 
     /**
@@ -56,9 +68,5 @@ public class BasePresenter <T extends BaseContract.IBaseView> implements BaseCon
             }
         });
     }
-
-    /**
-     * 可在此处实现部分通用请求
-     */
 
 }

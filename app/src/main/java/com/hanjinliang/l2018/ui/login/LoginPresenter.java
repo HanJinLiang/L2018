@@ -16,9 +16,9 @@ import io.reactivex.schedulers.Schedulers;
 public class LoginPresenter extends BasePresenter<LoginContract.ILoginView> implements LoginContract.ILoginPresenter {
     @Override
     public void login(String tel, String pwd) {
-        RetrofitFactory.getRetrofit().create(Api.class)
+        RetrofitFactory.getRetrofit()
                 .register(tel,pwd)
-                .flatMap(s-> RetrofitFactory.getRetrofit().create(Api.class).loginByPassword(tel,pwd))
+                .flatMap(s-> RetrofitFactory.getRetrofit().loginByPassword(tel,pwd))
                 //转换数据源
                 .compose(handleResult())
                 //绑定生命周期

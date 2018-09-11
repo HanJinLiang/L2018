@@ -6,6 +6,8 @@ import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+import com.hanjinliang.l2018.base.BaseContract;
+import com.hanjinliang.l2018.base.BasePresenter;
 import com.hanjinliang.l2018.ui.main.L2018Application;
 
 import java.io.IOException;
@@ -23,6 +25,8 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okio.Buffer;
 import retrofit2.Retrofit;
@@ -43,7 +47,7 @@ public class RetrofitFactory {
     private volatile static Retrofit retrofit;
 
     @NonNull
-    public static Retrofit getRetrofit() {
+    public static Api getRetrofit() {
         if (retrofit == null) {
             synchronized (RetrofitFactory.class) {
                 if (retrofit == null) {
@@ -55,22 +59,26 @@ public class RetrofitFactory {
 
                     //setHttps(builder);
                     // builder.sslSocketFactory(getSSLSocketFactory(new Buffer().writeUtf8(CER_L2018).inputStream()));
+//                     //cookie持久化
+//                    ClearableCookieJar cookieJar =
+//                            new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(L2018Application.getApp()));
+//                    builder.cookieJar(cookieJar);
                     //使用自定义的Log拦截器
                     builder.addInterceptor(new LoggingInterceptor());
-                    //cookie持久化
-                    ClearableCookieJar cookieJar =
-                            new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(L2018Application.getApp()));
-                    builder.cookieJar(cookieJar);
+                    //拦截器实现持久化Cookie
+                    builder.addInterceptor(new AddCookiesInterceptor()).addInterceptor(new ReceivedCookiesInterceptor());
+                             //这部分
                     retrofit = new Retrofit.Builder()
                             .baseUrl(BASEAPI)
                             .client(builder.build())
                             .addConverterFactory(GsonConverterFactory.create())
                             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                             .build();
+
                 }
             }
         }
-        return retrofit;
+        return retrofit.create(Api.class);
     }
 
     /**

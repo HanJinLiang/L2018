@@ -20,7 +20,7 @@ import com.hanjinliang.l2018.R;
 import com.hanjinliang.l2018.base.BaseActivity;
 import com.hanjinliang.l2018.ui.baseinfo.BaseInfoActivity;
 import com.hanjinliang.l2018.ui.login.LoginActivity;
-import com.hanjinliang.l2018.ui.note.NoteFragment;
+import com.hanjinliang.l2018.ui.note.list.NoteListFragment;
 import com.hanjinliang.l2018.ui.note.build.AddNoteActivity;
 import com.hanjinliang.l2018.utils.image.MyImageLoader;
 
@@ -71,7 +71,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         navigationView.setNavigationItemSelectedListener(this);
         initNavigationView();
-        mFragmentArrayList.add(NoteFragment.newInstance());
+        mFragmentArrayList.add(NoteListFragment.newInstance());
 
         mainViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override

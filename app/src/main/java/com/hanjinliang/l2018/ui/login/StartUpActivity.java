@@ -12,8 +12,15 @@ import com.hanjinliang.l2018.ui.main.UserInfoHelper;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2018-09-09.
@@ -25,23 +32,24 @@ public class StartUpActivity extends BaseActivity {
     @Override
     public void initPresenter() {
     }
-
+    Disposable mDisposable;
     @Override
     public void initView() {
         //设置导航栏透明
         BarUtils.setStatusBarAlpha(this,0);
         startUpImage.setImageDrawable(ImageUtils.bitmap2Drawable(ImageUtils.fastBlur(ImageUtils.getBitmap(R.drawable.bg_2018),0.7f,5)));
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if(UserInfoHelper.getInstance().getUserInfo()!=null){
-                    startActivity(new Intent(StartUpActivity.this, MainActivity.class));
-                }else{
-                    startActivity(new Intent(StartUpActivity.this, LoginActivity.class));
-                }
-                finish();
-            }
-        }, 2000);
+        Observable.timer(2,TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe( aLong-> {
+                        if(UserInfoHelper.getInstance().getUserInfo()!=null){
+                            startActivity(new Intent(StartUpActivity.this, MainActivity.class));
+                        }else{
+                            startActivity(new Intent(StartUpActivity.this, LoginActivity.class));
+                        }
+                        finish();
+                    });
+
     }
 
     @Override
