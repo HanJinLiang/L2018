@@ -32,7 +32,6 @@ public class StartUpActivity extends BaseActivity {
     @Override
     public void initPresenter() {
     }
-    Disposable mDisposable;
     @Override
     public void initView() {
         //设置导航栏透明
