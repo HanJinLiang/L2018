@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.hanjinliang.l2018.R;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -136,8 +137,7 @@ public abstract class BaseActivity<T extends BaseContract.IBasePresenter> extend
      */
     @Override
     public void showFail(String failMsg) {
-
-        Toast.makeText(this,failMsg,Toast.LENGTH_SHORT).show();
+        ToastUtils.showLong(failMsg);
     }
 
     @Override

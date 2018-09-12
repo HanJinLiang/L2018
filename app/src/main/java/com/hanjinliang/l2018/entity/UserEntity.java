@@ -10,14 +10,14 @@ public class UserEntity {
     private String userName;
     private String userDesc;
     private String account;
-    private String header;
+    private String userPic;
 
-    public String getHeader() {
-        return header;
+    public String getUserPic() {
+        return userPic;
     }
 
-    public void setHeader(String header) {
-        this.header = header;
+    public void setUserPic(String userPic) {
+        this.userPic = userPic;
     }
 
     public String getUserId() {

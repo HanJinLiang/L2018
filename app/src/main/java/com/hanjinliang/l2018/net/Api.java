@@ -8,10 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 /**
@@ -21,8 +24,21 @@ import retrofit2.http.Query;
 
 public interface Api {
     @FormUrlEncoded
+    @POST("login/getRegisterCode")
+    Observable<ResultEntity<String>> getRegisterCode(@Field("account") String account);
+    @FormUrlEncoded
+    @POST("login/register")
+    Observable<ResultEntity<String>> register(@Field("account") String account,@Field("password") String password,@Field("code") String code);
+    @FormUrlEncoded
     @POST("login/register")
     Observable<ResultEntity<String>> register(@Field("account") String account, @Field("password") String password);
+
+    @Multipart
+    @POST("user/updateUserPic")
+    Observable<ResultEntity<String>> updateUserPic(@Part MultipartBody.Part file);
+    @FormUrlEncoded
+    @POST("user/updateUser")
+    Observable<ResultEntity<String>> updateUser(@Field("userName") String userName);
 
     @FormUrlEncoded
     @POST("login/loginByPassword")

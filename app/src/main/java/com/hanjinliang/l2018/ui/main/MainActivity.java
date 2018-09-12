@@ -15,9 +15,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.hanjinliang.l2018.R;
 import com.hanjinliang.l2018.base.BaseActivity;
+import com.hanjinliang.l2018.base.RxBus;
+import com.hanjinliang.l2018.base.RxBusEvent;
 import com.hanjinliang.l2018.ui.baseinfo.BaseInfoActivity;
 import com.hanjinliang.l2018.ui.login.LoginActivity;
 import com.hanjinliang.l2018.ui.note.list.NoteListFragment;
@@ -28,6 +29,9 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * 首页
@@ -86,6 +90,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         });
         //BarUtils.setStatusBarColor4Drawer(this,drawer,fake_status_bar, ContextCompat.getColor(this,R.color.top_color),100,false);
       //  BarUtils.addMarginTopEqualStatusBarHeight(toolbar);//
+
+        compositeDisposable=new CompositeDisposable();
+        Disposable subscribe = RxBus.get().toObservable(RxBusEvent.class).subscribe(rxBusEvent -> initNavigationView());
+        compositeDisposable.add(subscribe);
     }
 
     @Override
@@ -98,16 +106,22 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 初始化侧滑栏
      */
     private void initNavigationView() {
-        View headerLayout =
-                navigationView.inflateHeaderView(R.layout.nav_header_main);
+        View headerLayout;
+        if(navigationView.getHeaderCount()==0){
+            headerLayout =navigationView.inflateHeaderView(R.layout.nav_header_main);
+            headerLayout.setOnClickListener(v->startActivity(new Intent(this, BaseInfoActivity.class)));
+        }else{
+            headerLayout=navigationView.getHeaderView(0);
+        }
+
         TextView userName= headerLayout.findViewById(R.id.nav_userName);
         TextView userPhone=headerLayout.findViewById(R.id.nav_userPhone);
         ImageView imageView=headerLayout.findViewById(R.id.imageView);
 
         userName.setText(UserInfoHelper.getInstance().getUserInfo().getUserName());
         userPhone.setText(UserInfoHelper.getInstance().getUserInfo().getAccount());
-        MyImageLoader.getInstance().load(UserInfoHelper.getInstance().getUserInfo().getHeader()).isCircle(true).into(imageView);
-        headerLayout.setOnClickListener(v->startActivity(new Intent(this, BaseInfoActivity.class)));
+        MyImageLoader.getInstance().load(UserInfoHelper.getInstance().getUserInfo().getUserPic()).isCircle(true).into(imageView);
+
     }
 
 
@@ -117,7 +131,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.nav_collect://收藏
                 return true;
             case R.id.nav_loginOut://退出登录
-                SPUtils.getInstance().remove("userInfo");
+                UserInfoHelper.getInstance().clearUserInfo();
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 return true;

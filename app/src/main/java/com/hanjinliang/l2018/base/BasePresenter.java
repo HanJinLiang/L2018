@@ -44,6 +44,7 @@ public class BasePresenter <T extends BaseContract.IBaseView> implements BaseCon
                             return createData(result.getData());
                         }
                     }else{
+                        mView.showFail(result.getMsg());
                         return Observable.empty();
                     }
                 }

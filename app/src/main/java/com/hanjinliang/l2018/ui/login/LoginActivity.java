@@ -12,6 +12,7 @@ import com.hanjinliang.l2018.ui.main.MainActivity;
 import com.hanjinliang.l2018.R;
 import com.hanjinliang.l2018.base.BaseActivity;
 import com.hanjinliang.l2018.entity.UserEntity;
+import com.hanjinliang.l2018.ui.register.RegisterActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -54,15 +55,23 @@ public class LoginActivity extends BaseActivity<LoginContract.ILoginPresenter> i
         return null;
     }
 
-    @OnClick({R.id.login})
+    @OnClick({R.id.login,R.id.idRegister})
     public void onClick(View view){
-        String tel = et_tel.getText().toString().trim();
-        String pwd = et_pwd.getText().toString().trim();
-        if(!RegexUtils.isMobileSimple(tel)){
-            et_tel.setError("请输入正确的手机号码");
-            return;
+        switch (view.getId()){
+            case R.id.login:
+                String tel = et_tel.getText().toString().trim();
+                String pwd = et_pwd.getText().toString().trim();
+                if(!RegexUtils.isMobileSimple(tel)){
+                    et_tel.setError("请输入正确的手机号码");
+                    return;
+                }
+                mPresenter.login(tel,pwd);
+                break;
+            case R.id.idRegister:
+                startActivity(new Intent(this, RegisterActivity.class));
+                break;
         }
-        mPresenter.login(tel,pwd);
+
     }
 
     @Override

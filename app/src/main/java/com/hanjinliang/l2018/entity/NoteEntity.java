@@ -5,58 +5,85 @@ package com.hanjinliang.l2018.entity;
  * 笔记实体类
  */
 public class NoteEntity{
-    private String user_id;
-    private String article_tag;
-    private String article_title;
-    private String article_url;
-    private String article_id;
-    private String article_content;
+    private String userId;
+    private String articleTag;
+    private String articleTitle;
+    private String articleUrl;
+    private String articleId;
+    private String articleContent;
+    private String createDate;
+    private String userName;
+    private String userPic;
 
-    public String getUser_id() {
-        return user_id;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getArticle_tag() {
-        return article_tag;
+    public String getUserPic() {
+        return userPic;
     }
 
-    public void setArticle_tag(String article_tag) {
-        this.article_tag = article_tag;
+    public void setUserPic(String userPic) {
+        this.userPic = userPic;
     }
 
-    public String getArticle_title() {
-        return article_title;
+    public String getCreateDate() {
+        return createDate;
     }
 
-    public void setArticle_title(String article_title) {
-        this.article_title = article_title;
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
 
-    public String getArticle_url() {
-        return article_url;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setArticle_url(String article_url) {
-        this.article_url = article_url;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getArticle_id() {
-        return article_id;
+    public String getArticleTag() {
+        return articleTag;
     }
 
-    public void setArticle_id(String article_id) {
-        this.article_id = article_id;
+    public void setArticleTag(String articleTag) {
+        this.articleTag = articleTag;
     }
 
-    public String getArticle_content() {
-        return article_content;
+    public String getArticleTitle() {
+        return articleTitle;
     }
 
-    public void setArticle_content(String article_content) {
-        this.article_content = article_content;
+    public void setArticleTitle(String articleTitle) {
+        this.articleTitle = articleTitle;
+    }
+
+    public String getArticleUrl() {
+        return articleUrl;
+    }
+
+    public void setArticleUrl(String articleUrl) {
+        this.articleUrl = articleUrl;
+    }
+
+    public String getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(String articleId) {
+        this.articleId = articleId;
+    }
+
+    public String getArticleContent() {
+        return articleContent;
+    }
+
+    public void setArticleContent(String articleContent) {
+        this.articleContent = articleContent;
     }
 }

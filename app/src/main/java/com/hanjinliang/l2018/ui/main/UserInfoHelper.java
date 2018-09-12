@@ -46,6 +46,11 @@ public class UserInfoHelper {
         USERINFO=userEntity;
         mSPUtils.put("userInfo",new Gson().toJson(userEntity) );
     }
-
+    public void saveCurrentUserInfo(){
+        if(USERINFO==null){
+            return;
+        }
+        mSPUtils.put("userInfo",new Gson().toJson(USERINFO) );
+    }
 
 }
