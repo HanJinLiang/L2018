@@ -4,13 +4,17 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.hanjinliang.l2018.R;
 import com.hanjinliang.l2018.base.BaseFragment;
+import com.hanjinliang.l2018.base.RxBus;
 import com.hanjinliang.l2018.entity.NoteEntity;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * 笔记列表
@@ -46,6 +50,11 @@ public class NoteListFragment extends BaseFragment<NoteContract.INotePresenter> 
         mNoteAdapter.bindToRecyclerView(mRecyclerView);
         mNoteAdapter.setOnLoadMoreListener(()->mPresenter.loadNoteList(false),mRecyclerView);
         mPresenter.loadNoteList(true);
+
+        //监听
+        compositeDisposable=new CompositeDisposable();
+        compositeDisposable.add(RxBus.get().toObservable().subscribe(o->
+                mPresenter.loadNoteList(true)));
     }
 
     @Override
@@ -58,6 +67,7 @@ public class NoteListFragment extends BaseFragment<NoteContract.INotePresenter> 
         mSwipeRefreshLayout.setRefreshing(false);
         mNoteAdapter.getData().clear();
         mNoteAdapter.addData(datas);
+        //mNoteAdapter.disableLoadMoreIfNotFullPage();
     }
 
     @Override

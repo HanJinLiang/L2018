@@ -10,10 +10,13 @@ import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.hanjinliang.l2018.R;
 import com.hanjinliang.l2018.base.BaseActivity;
+import com.hanjinliang.l2018.base.RxBus;
 import com.hanjinliang.l2018.ui.main.UserInfoHelper;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by Administrator on 2018-09-07.
@@ -64,6 +67,7 @@ public class AddNoteActivity extends BaseActivity<AddNoteContract.IAddNotePresen
 
     @Override
     public void addNoteSuccess() {
+        RxBus.get().post(new Integer(1));
         ToastUtils.showLong("笔记添加成功");
         finish();
     }

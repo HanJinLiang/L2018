@@ -8,6 +8,7 @@ import com.hanjinliang.l2018.net.RetrofitFactory;
 import java.util.ArrayList;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -30,30 +31,23 @@ public class NotePresenter extends BasePresenter<NoteContract.INoteView> impleme
                 //切换线程
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseObserver<ArrayList<NoteEntity>>(mView) {
-                    @Override
-                    public void onNext(ArrayList<NoteEntity> notes) {
+                .subscribe(notes-> {
                         pageIndex++;
-                        if(!isFirst){
-                            if(notes==null||notes.size()==0){
+                        if (!isFirst) {
+                            if (notes == null || notes.size() == 0) {
                                 mView.onLoadNoMoreData();
-                            }else{
+                            } else {
                                 mView.onLoadMoreSuccess();
                             }
                         }
 
-                        if(isFirst){
+                        if (isFirst) {
                             mDatas.clear();
                         }
                         mDatas.addAll(notes);
                         mView.showNodeList(mDatas);
                     }
+                ,  throwable-> mView.onLoadDataError());
 
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        mView.onLoadDataError();
-                    }
-                });
     }
 }

@@ -59,8 +59,8 @@ public class MyImageLoader {
 
     //默认的Options
     LoaderOptions mDefaultOptions=new LoaderOptions()
-            .error(R.drawable.ic_launcher_background)
-            .placeholder(R.drawable.ic_launcher_background);
+            .error(R.drawable.ic_launcher_background);
+//            .placeholder(R.drawable.ic_launcher_background);
 
     public LoaderOptions getDefaultOptions() {
         return mDefaultOptions;

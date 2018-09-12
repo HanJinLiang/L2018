@@ -117,7 +117,7 @@ public abstract class BaseActivity<T extends BaseContract.IBasePresenter> extend
     public void showLoading(String loadStr) {
         if (mLoadingDialog != null) {
             if(TextUtils.isEmpty(loadStr)) {
-                TextView tv = (TextView) mLoadingDialog.findViewById(R.id.tv_load_dialog);
+                TextView tv = mLoadingDialog.findViewById(R.id.tv_load_dialog);
                 tv.setText(loadStr);
             }
             mLoadingDialog.show();

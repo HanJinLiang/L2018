@@ -28,9 +28,9 @@ public class NoteAdapter extends BaseQuickAdapter<NoteEntity,BaseViewHolder> imp
     protected void convert(BaseViewHolder helper, NoteEntity item) {
         helper.setText(R.id.id_note_name,"裁军");
         helper.setText(R.id.id_note_time, TimeUtils.getNowString());
-        helper.setText(R.id.id_note_content,"这是第一笔记标题");
+        helper.setText(R.id.id_note_content,item.getArticle_content());
         //通过html的形式实现超链接
-        String testLink1 ="<font color='#0e6c9c'>"+ "<a href="+item.getArticle_url()+">"+item.getArticle_tag()+"</a>";
+        String testLink1 ="<font color='#0e6c9c'>"+ "<a href="+item.getArticle_url()+">"+item.getArticle_url()+"</a>";
         helper.setText(R.id.id_note_link, Html.fromHtml(testLink1));
         MyImageLoader.getInstance().load(
                 "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536425846760&di=f84d26fcfddb56b752548483437ea9fb&imgtype=0&src=http%3A%2F%2Fimage.uc.cn%2Fs%2Fwemedia%2Fs%2F2017%2F09aad549d74aa227606b51edaefa08f7x1280x852x87.jpeg"

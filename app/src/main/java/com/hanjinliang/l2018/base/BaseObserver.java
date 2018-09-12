@@ -31,11 +31,6 @@ public abstract class BaseObserver<T> implements Observer<T> {
     @Override
     public void onError(Throwable e) {
         mView.hideLoading();
-//        if(e instanceof BaseException){
-//            baseView.showFaild(e.getMessage());
-//        }
-        //TODO 提示错误信息
-        ToastUtils.showLong(e.getMessage());
     }
 
     @Override
