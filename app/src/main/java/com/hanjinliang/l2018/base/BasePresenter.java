@@ -1,6 +1,10 @@
 package com.hanjinliang.l2018.base;
 
+import android.content.Intent;
+
 import com.hanjinliang.l2018.entity.ResultEntity;
+import com.hanjinliang.l2018.ui.login.LoginActivity;
+import com.hanjinliang.l2018.ui.main.L2018Application;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
@@ -46,6 +50,9 @@ public class BasePresenter <T extends BaseContract.IBaseView> implements BaseCon
                     }else{
                         if(result.getCode()==10001){//登录失效
                             RxBus.get().post(new RxBusEvent(Constant.EVENT_LOGIN_OUT));
+                            Intent intent = new Intent(L2018Application.getApp(), LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            L2018Application.getApp().startActivity(intent);
                         }
                         mView.showFail(result.getMsg());
                         return Observable.empty();

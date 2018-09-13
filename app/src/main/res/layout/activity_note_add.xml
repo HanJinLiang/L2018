@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/activity_bg"
     android:id="@+id/layout_root_login"
     android:layout_width="match_parent"
@@ -59,21 +60,16 @@
         android:padding="@dimen/l_5dp"
         android:textColor="@color/text_black"/>
 
-    <TextView
-        android:elevation="@dimen/elevation"
-        android:id="@+id/save"
-        style="?android:textAppearanceSmall"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:gravity="center"
-        android:textColor="@color/text_white"
-        android:background="@drawable/corner_green_green"
-        android:layout_margin="@dimen/l_10dp"
-        android:text="保存"
-        android:textStyle="bold"
+        android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_add_title"/>
+        app:layout_constraintTop_toBottomOf="@+id/id_add_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/item_add_pic"
+        android:layout_margin="10dp"/>
+
 
 </android.support.constraint.ConstraintLayout>

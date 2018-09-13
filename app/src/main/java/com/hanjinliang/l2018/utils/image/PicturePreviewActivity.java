@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -17,6 +21,7 @@ import android.widget.ProgressBar;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.TimeUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -24,6 +29,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.hanjinliang.l2018.R;
 import com.hanjinliang.l2018.base.BaseActivity;
+import com.hanjinliang.l2018.base.MenuInfoBean;
 import com.hanjinliang.l2018.utils.share.ShareToolUtil;
 import com.hanjinliang.l2018.utils.share.ShareUtil;
 import com.luck.picture.lib.photoview.PhotoView;
@@ -33,6 +39,8 @@ import com.luck.picture.lib.widget.longimage.ImageViewState;
 import com.luck.picture.lib.widget.longimage.SubsamplingScaleImageView;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,22 +109,29 @@ public class PicturePreviewActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_share, menu);
-        return true;
+    public ArrayList<MenuInfoBean> getMenuInfo() {
+        ArrayList<MenuInfoBean> menuInfoBeans=new ArrayList<>();
+        menuInfoBeans.add(new MenuInfoBean("保存图片",null,true));
+        menuInfoBeans.add(new MenuInfoBean("QQ",null,false));
+        menuInfoBeans.add(new MenuInfoBean("微信",null,false));
+        menuInfoBeans.add(new MenuInfoBean("朋友圈",null,false));
+        return menuInfoBeans;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        saveFile(item.getItemId());
-        return super.onOptionsItemSelected(item);
+    public void onMenuSelected(int itemId, CharSequence title) {
+        switch (itemId){
+            case 0:
+                saveFile(0,false);
+                break;
+        }
     }
 
     /**
      * 先保存到本地  然后再分享
      * @param menuItemId
      */
-    private void saveFile(final int menuItemId) {
+    private void saveFile(final int menuItemId,final boolean isShare) {
         LogUtils.e("saveFile", TimeUtils.getNowString());
         Glide.with(PicturePreviewActivity.this)
                 .asBitmap()
@@ -125,19 +140,28 @@ public class PicturePreviewActivity extends BaseActivity {
                     @Override
                     public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                         LogUtils.e("saveSharePic1", TimeUtils.getNowString());
-                        File file= ShareToolUtil.saveSharePic(PicturePreviewActivity.this,resource);
-                        LogUtils.e("saveSharePic2", TimeUtils.getNowString());
-                        if(file!=null){
-                            switch (menuItemId){
-                                case R.id.action_share_qq:
-                                    ShareUtil.shareImageToQQ(PicturePreviewActivity.this,resource);
-                                    break;
-                                case R.id.action_share_wechat:
-                                    ShareUtil.shareWechatFriend(PicturePreviewActivity.this,file);
-                                    break;
-                                case R.id.action_share_wechat_group:
-                                    ShareUtil.shareWechatMoment(PicturePreviewActivity.this,"来自笛宝的分享",file);
-                                    break;
+                        String picName=mImagePaths.get(viewPager.getCurrentItem()).substring(mImagePaths.get(viewPager.getCurrentItem()).lastIndexOf("/"));
+                        File file= ShareToolUtil.saveSharePic(PicturePreviewActivity.this,resource,picName);
+                        if(isShare) {
+                            LogUtils.e("saveSharePic2", TimeUtils.getNowString());
+                            if (file != null) {
+                                switch (menuItemId) {
+                                    case 1:
+                                        ShareUtil.shareImageToQQ(PicturePreviewActivity.this, resource);
+                                        break;
+                                    case 2:
+                                        ShareUtil.shareWechatFriend(PicturePreviewActivity.this, file);
+                                        break;
+                                    case 3:
+                                        ShareUtil.shareWechatMoment(PicturePreviewActivity.this, "来自L2018的分享", file);
+                                        break;
+                                }
+                            }
+                        }else{
+                            if(file==null){
+                                ToastUtils.showLong("保存失败");
+                            }else{
+                                ToastUtils.showLong("保存成功");
                             }
                         }
                     }
