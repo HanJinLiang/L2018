@@ -7,7 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import com.blankj.utilcode.util.LogUtils;
 import com.hanjinliang.l2018.R;
 import com.hanjinliang.l2018.base.BaseFragment;
+import com.hanjinliang.l2018.base.Constant;
 import com.hanjinliang.l2018.base.RxBus;
+import com.hanjinliang.l2018.base.RxBusEvent;
 import com.hanjinliang.l2018.entity.NoteEntity;
 
 import java.util.ArrayList;
@@ -50,11 +52,16 @@ public class NoteListFragment extends BaseFragment<NoteContract.INotePresenter> 
         mNoteAdapter.bindToRecyclerView(mRecyclerView);
         mNoteAdapter.setOnLoadMoreListener(()->mPresenter.loadNoteList(false),mRecyclerView);
         mPresenter.loadNoteList(true);
+    }
 
-        //监听
-        compositeDisposable=new CompositeDisposable();
-        compositeDisposable.add(RxBus.get().toObservable().subscribe(o->
-                mPresenter.loadNoteList(true)));
+    @Override
+    public void onHandlerRxBusEvent(RxBusEvent event) {
+        super.onHandlerRxBusEvent(event);
+        switch (event.getEventCode()){
+            case Constant.EVENT_BUILD_NOTE_SUCCESS:
+                mPresenter.loadNoteList(true);
+                break;
+        }
     }
 
     @Override

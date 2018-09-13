@@ -10,7 +10,9 @@ import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.hanjinliang.l2018.R;
 import com.hanjinliang.l2018.base.BaseActivity;
+import com.hanjinliang.l2018.base.Constant;
 import com.hanjinliang.l2018.base.RxBus;
+import com.hanjinliang.l2018.base.RxBusEvent;
 import com.hanjinliang.l2018.ui.main.UserInfoHelper;
 
 import butterknife.BindView;
@@ -37,6 +39,9 @@ public class AddNoteActivity extends BaseActivity<AddNoteContract.IAddNotePresen
     public void initView() {
         ClipboardManager cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         ClipData data = cm.getPrimaryClip();
+        if(data==null){
+            return;
+        }
         ClipData.Item item = data.getItemAt(0);
         String content = item.getText().toString();
         String urlLink ="<font color='#0e6c9c'>"+ "<a href="+content+">"+content+"</a>";
@@ -67,7 +72,7 @@ public class AddNoteActivity extends BaseActivity<AddNoteContract.IAddNotePresen
 
     @Override
     public void addNoteSuccess() {
-        RxBus.get().post(new Integer(1));
+        RxBus.get().post(new RxBusEvent(Constant.EVENT_BUILD_NOTE_SUCCESS));
         ToastUtils.showLong("笔记添加成功");
         finish();
     }

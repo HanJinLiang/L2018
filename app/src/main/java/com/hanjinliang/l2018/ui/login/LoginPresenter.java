@@ -17,8 +17,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.ILoginView> impl
     @Override
     public void login(String tel, String pwd) {
         RetrofitFactory.getRetrofit()
-                .register(tel,pwd)
-                .flatMap(s-> RetrofitFactory.getRetrofit().loginByPassword(tel,pwd))
+                .loginByPassword(tel,pwd)
                 //转换数据源
                 .compose(handleResult())
                 //绑定生命周期

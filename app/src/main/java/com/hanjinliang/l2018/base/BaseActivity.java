@@ -29,6 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.annotations.Nullable;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by caijun on 2018/9/5.
@@ -87,6 +88,25 @@ public abstract class BaseActivity<T extends BaseContract.IBasePresenter> extend
         initPresenter();
         attachView();
         initView();
+        initRxBusEvent();
+    }
+
+    private void initRxBusEvent() {
+        compositeDisposable=new CompositeDisposable();
+        Disposable subscribe = RxBus.get().toObservable(RxBusEvent.class).subscribe(rxBusEvent -> onHandlerRxBusEvent(rxBusEvent));
+        compositeDisposable.add(subscribe);
+    }
+
+    /**
+     * 处理事件  父类重新此方法就行
+     * @param event
+     */
+    public void onHandlerRxBusEvent(RxBusEvent event){
+        switch (event.getEventCode()){
+            case Constant.EVENT_LOGIN_OUT:
+                finish();
+                break;
+        }
     }
 
     /**

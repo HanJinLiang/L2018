@@ -1,5 +1,6 @@
 package com.hanjinliang.l2018.ui.baseinfo;
 
+import android.Manifest;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.permissions.RxPermissions;
 
 import java.util.List;
 
@@ -41,7 +43,7 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoContract.IBaseInfoPre
 
     @Override
     public void initView() {
-        MyImageLoader.getInstance().load(UserInfoHelper.getInstance().getUserInfo().getUserPic()).isCircle(true).into(headerImage);
+        MyImageLoader.getInstance().load(UserInfoHelper.getInstance().getUserInfo().getUserPic()).into(headerImage);
         id_info_name.setText(UserInfoHelper.getInstance().getUserInfo().getUserName());
     }
 
@@ -67,12 +69,22 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoContract.IBaseInfoPre
         }
     }
     private void select() {
-        PictureSelector.create(BaseInfoActivity.this)
-                .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-                .theme(R.style.picture_white_style)
-                .maxSelectNum(1)
-                //.selectionMedia(selectList)// 是否传入已选图片
-                .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
+        new RxPermissions(this).request(Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(granted -> {
+                    if (granted) { // Always true pre-M
+                        PictureSelector.create(BaseInfoActivity.this)
+                                .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                                .theme(R.style.picture_white_style)
+                                .maxSelectNum(1)
+                                .compress(true)
+                                //.selectionMedia(selectList)// 是否传入已选图片
+                                .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
+                    } else {
+                        finish();
+                    }
+                });
+
     }
 
     @Override
@@ -92,7 +104,7 @@ public class BaseInfoActivity extends BaseActivity<BaseInfoContract.IBaseInfoPre
                         Log.i("图片-----》", media.getPath());
                     }
                     if(selectList!=null&&selectList.size()>0){
-                        mPresenter.uploadFile(selectList.get(0).getPath());
+                        mPresenter.uploadFile(selectList.get(0).getCompressPath());
                     }
                     break;
             }

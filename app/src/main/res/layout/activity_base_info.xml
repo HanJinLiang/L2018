@@ -11,7 +11,7 @@
     android:showDividers="middle"
     android:padding="@dimen/l_10dp">
 
-    <ImageView
+    <com.hanjinliang.l2018.ui.customer.RoundImageView
         android:id="@+id/headerImage"
         android:layout_width="80dp"
         android:layout_height="80dp"

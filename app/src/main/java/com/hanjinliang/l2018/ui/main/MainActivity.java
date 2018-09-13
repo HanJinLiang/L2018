@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.hanjinliang.l2018.R;
 import com.hanjinliang.l2018.base.BaseActivity;
+import com.hanjinliang.l2018.base.Constant;
 import com.hanjinliang.l2018.base.RxBus;
 import com.hanjinliang.l2018.base.RxBusEvent;
 import com.hanjinliang.l2018.ui.baseinfo.BaseInfoActivity;
@@ -37,8 +38,6 @@ import io.reactivex.functions.Consumer;
  * 首页
  */
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
-    @BindView(R.id.fake_status_bar)
-    View fake_status_bar;
     @BindView(R.id.main_toolbar)
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
@@ -90,10 +89,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         });
         //BarUtils.setStatusBarColor4Drawer(this,drawer,fake_status_bar, ContextCompat.getColor(this,R.color.top_color),100,false);
       //  BarUtils.addMarginTopEqualStatusBarHeight(toolbar);//
-
-        compositeDisposable=new CompositeDisposable();
-        Disposable subscribe = RxBus.get().toObservable(RxBusEvent.class).subscribe(rxBusEvent -> initNavigationView());
-        compositeDisposable.add(subscribe);
     }
 
     @Override
@@ -120,7 +115,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         userName.setText(UserInfoHelper.getInstance().getUserInfo().getUserName());
         userPhone.setText(UserInfoHelper.getInstance().getUserInfo().getAccount());
-        MyImageLoader.getInstance().load(UserInfoHelper.getInstance().getUserInfo().getUserPic()).isCircle(true).into(imageView);
+        MyImageLoader.getInstance().load(UserInfoHelper.getInstance().getUserInfo().getUserPic()).into(imageView);
 
     }
 
@@ -155,6 +150,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onHandlerRxBusEvent(RxBusEvent event) {
+        super.onHandlerRxBusEvent(event);
+        switch (event.getEventCode()){
+            case Constant.EVENT_UPDATE_USERINFO:
+                initNavigationView();
+                break;
         }
     }
 }

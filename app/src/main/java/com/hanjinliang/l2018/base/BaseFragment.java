@@ -27,6 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.annotations.Nullable;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Fragment基类
@@ -70,8 +71,22 @@ public abstract class BaseFragment<T extends BaseContract.IBasePresenter> extend
         initPresenter();
         attachView();
         initView();
+        initRxBusEvent();
     }
 
+    private void initRxBusEvent() {
+        compositeDisposable=new CompositeDisposable();
+        Disposable subscribe = RxBus.get().toObservable(RxBusEvent.class).subscribe(rxBusEvent -> onHandlerRxBusEvent(rxBusEvent));
+        compositeDisposable.add(subscribe);
+    }
+
+    /**
+     * 处理事件  父类重新此方法就行
+     * @param event
+     */
+    public void onHandlerRxBusEvent(RxBusEvent event){
+
+    }
     public abstract int getContentViewId();
 
 

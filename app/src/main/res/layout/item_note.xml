@@ -16,7 +16,7 @@
 
     >
 
-    <ImageView
+    <com.hanjinliang.l2018.ui.customer.RoundImageView
         android:id="@+id/id_note_header"
         android:layout_width="@dimen/l_50dp"
         android:layout_height="@dimen/l_50dp"

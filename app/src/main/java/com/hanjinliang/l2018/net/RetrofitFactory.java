@@ -2,14 +2,6 @@ package com.hanjinliang.l2018.net;
 
 import android.support.annotation.NonNull;
 
-import com.franmontiel.persistentcookiejar.ClearableCookieJar;
-import com.franmontiel.persistentcookiejar.PersistentCookieJar;
-import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
-import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
-import com.hanjinliang.l2018.base.BaseContract;
-import com.hanjinliang.l2018.base.BasePresenter;
-import com.hanjinliang.l2018.ui.main.L2018Application;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
@@ -24,11 +16,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
-import okio.Buffer;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -38,11 +26,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by caijun on 2018/5/26.
  * 功能介绍：网络请求基类
  */
-
 public class RetrofitFactory {
-    public final static String BASEAPI="https://www.fddlpz.com/note/";
-    // public final static String BASEAPI="https://tcc.taobao.com/";
-//    public final static String BASEAPI2="http://www.wanandroid.com/";
+    private final static String BASE_API ="https://www.fddlpz.com/note/";
 
     private volatile static Retrofit retrofit;
 
@@ -69,7 +54,7 @@ public class RetrofitFactory {
                     builder.addInterceptor(new AddCookiesInterceptor()).addInterceptor(new ReceivedCookiesInterceptor());
                              //这部分
                     retrofit = new Retrofit.Builder()
-                            .baseUrl(BASEAPI)
+                            .baseUrl(BASE_API)
                             .client(builder.build())
                             .addConverterFactory(GsonConverterFactory.create())
                             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -83,7 +68,7 @@ public class RetrofitFactory {
 
     /**
      *设置https 有所有的通过
-     * @param builder
+     * @param builder builder
      */
     private static void setHttps(OkHttpClient.Builder builder) {
         //信任所有服务器地址

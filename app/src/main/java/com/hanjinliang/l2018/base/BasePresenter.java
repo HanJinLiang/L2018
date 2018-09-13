@@ -44,6 +44,9 @@ public class BasePresenter <T extends BaseContract.IBaseView> implements BaseCon
                             return createData(result.getData());
                         }
                     }else{
+                        if(result.getCode()==10001){//登录失效
+                            RxBus.get().post(new RxBusEvent(Constant.EVENT_LOGIN_OUT));
+                        }
                         mView.showFail(result.getMsg());
                         return Observable.empty();
                     }

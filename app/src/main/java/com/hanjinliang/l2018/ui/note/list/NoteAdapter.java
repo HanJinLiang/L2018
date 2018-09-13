@@ -31,7 +31,7 @@ public class NoteAdapter extends BaseQuickAdapter<NoteEntity,BaseViewHolder> imp
         //通过html的形式实现超链接
         String testLink1 ="<font color='#0e6c9c'>"+ "<a href="+item.getArticleUrl()+">"+item.getArticleUrl()+"</a>";
         helper.setText(R.id.id_note_link, Html.fromHtml(testLink1));
-        MyImageLoader.getInstance().load(item.getUserPic()).isCircle(true).into(helper.getView(R.id.id_note_header));
+        MyImageLoader.getInstance().load(item.getUserPic()).into(helper.getView(R.id.id_note_header));
         helper.addOnClickListener(R.id.id_note_link);
         helper.addOnClickListener(R.id.id_note_header);
     }

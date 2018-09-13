@@ -14,7 +14,7 @@
     android:paddingTop="50dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
+    <com.hanjinliang.l2018.ui.customer.RoundImageView
         android:id="@+id/imageView"
         android:layout_width="60dp"
         android:layout_height="60dp"

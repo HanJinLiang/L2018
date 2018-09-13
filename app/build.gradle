@@ -67,7 +67,7 @@ dependencies {
     //https://github.com/LuckSiege/PictureSelector
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.1.7'
 
-    //持久化Cookie
-    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+    //https://github.com/tbruyelle/RxPermissions
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
 
 }
