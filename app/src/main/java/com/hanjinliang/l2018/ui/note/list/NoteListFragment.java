@@ -3,8 +3,11 @@ package com.hanjinliang.l2018.ui.note.list;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hanjinliang.l2018.R;
 import com.hanjinliang.l2018.base.BaseFragment;
 import com.hanjinliang.l2018.base.Constant;
@@ -13,6 +16,7 @@ import com.hanjinliang.l2018.base.RxBusEvent;
 import com.hanjinliang.l2018.entity.NoteEntity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.disposables.CompositeDisposable;
@@ -72,10 +76,29 @@ public class NoteListFragment extends BaseFragment<NoteContract.INotePresenter> 
     @Override
     public void showNodeList(ArrayList<NoteEntity> datas) {
         mSwipeRefreshLayout.setRefreshing(false);
+        handlerData(datas);
         mNoteAdapter.getData().clear();
         mNoteAdapter.addData(datas);
         //mNoteAdapter.disableLoadMoreIfNotFullPage();
     }
+
+    /**
+     * 傻逼蔡军返回json图片
+     * @param datas
+     */
+    private void handlerData(ArrayList<NoteEntity> datas) {
+        for(NoteEntity noteEntity:datas){
+            noteEntity.setCustomerArticlePic(json2StringArray(noteEntity.getArticlePic()));
+        }
+    }
+
+    private List<String> json2StringArray(String pics){
+        if(TextUtils.isEmpty(pics)){
+            return new ArrayList<>();
+        }
+        return new Gson().fromJson(pics,new TypeToken<List<String>>(){}.getType());
+    }
+
 
     @Override
     public void onLoadMoreSuccess() {

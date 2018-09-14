@@ -1,10 +1,15 @@
 package com.hanjinliang.l2018.ui.note.list;
 
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hanjinliang.l2018.R;
 import com.hanjinliang.l2018.entity.NoteEntity;
 import com.hanjinliang.l2018.ui.note.detail.NoteDetailActivity;
@@ -12,6 +17,7 @@ import com.hanjinliang.l2018.utils.image.MyImageLoader;
 import com.hanjinliang.l2018.utils.image.PicturePreviewActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2018-09-08.
@@ -34,7 +40,12 @@ public class NoteAdapter extends BaseQuickAdapter<NoteEntity,BaseViewHolder> imp
         MyImageLoader.getInstance().load(item.getUserPic()).into(helper.getView(R.id.id_note_header));
         helper.addOnClickListener(R.id.id_note_link);
         helper.addOnClickListener(R.id.id_note_header);
+
+        RecyclerView noteRecyclerView=helper.getView(R.id.noteRecyclerView);
+        noteRecyclerView.setLayoutManager(new GridLayoutManager(mContext,getColumnsCount(item.getCustomerArticlePic())));
+        noteRecyclerView.setAdapter(new NotePicAdapter(item.getCustomerArticlePic()));
     }
+
 
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -48,5 +59,29 @@ public class NoteAdapter extends BaseQuickAdapter<NoteEntity,BaseViewHolder> imp
                 PicturePreviewActivity.previewPicture(mContext,paths,0);
                 break;
         }
+    }
+
+
+    private int getColumnsCount(List<String> pics) {
+        int columns=3;
+        switch (pics.size()){
+            case 0:
+            case 1:
+                columns=1;
+                break;
+            case 2:
+            case 3:
+            case 4:
+                columns=2;
+                break;
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+                columns=3;
+                break;
+        }
+        return columns;
     }
 }

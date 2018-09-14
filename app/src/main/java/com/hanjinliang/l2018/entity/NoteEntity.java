@@ -1,5 +1,7 @@
 package com.hanjinliang.l2018.entity;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2018-09-11.
  * 笔记实体类
@@ -14,6 +16,24 @@ public class NoteEntity{
     private String createDate;
     private String userName;
     private String userPic;
+    private String articlePic;
+    private List<String> customerArticlePic;
+
+    public List<String> getCustomerArticlePic() {
+        return customerArticlePic;
+    }
+
+    public void setCustomerArticlePic(List<String> customerArticlePic) {
+        this.customerArticlePic = customerArticlePic;
+    }
+
+    public String getArticlePic() {
+        return articlePic;
+    }
+
+    public void setArticlePic(String articlePic) {
+        this.articlePic = articlePic;
+    }
 
     public String getUserName() {
         return userName;

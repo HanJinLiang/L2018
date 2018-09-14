@@ -169,7 +169,7 @@ public class AddNoteActivity extends BaseActivity<AddNoteContract.IAddNotePresen
             ToastUtils.showLong("内容不能为空");
             return;
         }
-        mPresenter.addNote(UserInfoHelper.getInstance().getUserInfo().getUserId(),noteContent,noteContent,noteUrl,UserInfoHelper.getInstance().getUserInfo().getUserId());
+        mPresenter.addNote(noteContent,noteContent,noteUrl,UserInfoHelper.getInstance().getUserInfo().getUserId(),mPicAdapter.getData());
     }
 
 
@@ -183,6 +183,7 @@ public class AddNoteActivity extends BaseActivity<AddNoteContract.IAddNotePresen
         PictureSelector.create(AddNoteActivity.this)
                 .openGallery(PictureMimeType.ofAll())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
                 .theme(R.style.picture_white_style)
+                .compress(true)
                 .selectionMedia(selectList)// 是否传入已选图片
                 .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
     }
@@ -203,7 +204,12 @@ public class AddNoteActivity extends BaseActivity<AddNoteContract.IAddNotePresen
                     ArrayList<String>  paths=new ArrayList<>();
                     for (LocalMedia media : selectList) {
                         Log.i("图片-----》", media.getPath());
-                        paths.add(media.getPath());
+                        if(media.isCompressed()){
+                            paths.add(media.getCompressPath());
+                        }else{
+                            paths.add(media.getPath());
+                        }
+
                     }
                     mPicAdapter.getData().clear();
                     mPicAdapter.addData(paths);

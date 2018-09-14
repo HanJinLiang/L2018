@@ -9,12 +9,14 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 
 /**
@@ -36,6 +38,7 @@ public interface Api {
     @Multipart
     @POST("user/updateUserPic")
     Observable<ResultEntity<String>> updateUserPic(@Part MultipartBody.Part file);
+
     @FormUrlEncoded
     @POST("user/updateUser")
     Observable<ResultEntity<String>> updateUser(@Field("userName") String userName);
@@ -44,10 +47,10 @@ public interface Api {
     @POST("login/loginByPassword")
     Observable<ResultEntity<UserEntity>> loginByPassword(@Field("account") String account, @Field("password") String password);
 
-    @FormUrlEncoded
+    @Multipart
     @POST("article/new")
-    Observable<ResultEntity<String>> noteNew(@Field("userId") String userId, @Field("articleTitle") String articleTitle
-            , @Field("articleContent") String articleContent, @Field("articleUrl") String articleUrl, @Field("articleTag") String articleTag);
+    Observable<ResultEntity<String>> noteNew( @Part("articleTitle") RequestBody articleTitle, @Part("articleContent") RequestBody  articleContent
+            , @Part("articleUrl") RequestBody  articleUrl, @Part("articleTag") RequestBody  articleTag,@Part List<MultipartBody.Part> files);
 
     @FormUrlEncoded
     @POST("article/findArticle")
