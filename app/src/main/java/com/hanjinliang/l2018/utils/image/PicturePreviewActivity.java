@@ -124,6 +124,8 @@ public class PicturePreviewActivity extends BaseActivity {
             case 0:
                 saveFile(0,false);
                 break;
+            default://分享
+                    saveFile(itemId,true);
         }
     }
 

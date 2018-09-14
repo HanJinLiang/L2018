@@ -35,7 +35,7 @@ public class AddNotePresenter extends BasePresenter<AddNoteContract.IAddNoteView
             LogUtils.e("图片大小--"+FileUtils.getFileLength(file)/1024+"M");
             if(FileUtils.getFileLength(file)>1024*1024*4){
                boolean save=ImageUtils.save(ImageUtils.compressByQuality(ImageUtils.getBitmap(file),1024*1024*4l),file, Bitmap.CompressFormat.JPEG);
-                LogUtils.e("压缩后图片大小--"+FileUtils.getFileLength(file)/1024+"M");
+                LogUtils.e("压缩后图片大小--"+FileUtils.getFileLength(file)/1024*1024+"M");
             }
 
             String fileName=picPath.substring(picPath.lastIndexOf("/"));
